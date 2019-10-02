@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,6 +15,7 @@ namespace coffeeShopR
 {
     public partial class itemUi : Form
     {
+        string id;
         ItemManager _itemManager =new ItemManager();
 
         public itemUi()
@@ -27,14 +28,22 @@ namespace coffeeShopR
             Item item = new Item();
 
             item.ItemName = itemnameTextBox.Text;
-            item.Price = Convert.ToDouble(priceTextBox.Text);
+
 
             //Set Name as Mandatory
-            //if (String.IsNullOrEmpty(itemnameTextBox.Text))
-            //{
-            //    MessageBox.Show("Name Can not be Empty!!!");
-            //    return;
-            //}
+            if (String.IsNullOrEmpty(itemnameTextBox.Text))
+            {
+                MessageBox.Show("Name Can not be Empty!!!");
+                return;
+            }
+
+            //Set Price as Mandatory
+            if (String.IsNullOrEmpty(priceTextBox.Text))
+            {
+                MessageBox.Show("Price Can not be Empty!!!");
+                return;
+            }
+            item.Price = Convert.ToDouble(priceTextBox.Text);
 
             //Check UNIQUE
             if (_itemManager.IsNameExist(item))
@@ -64,16 +73,8 @@ namespace coffeeShopR
 
             Item item = new Item();
 
-            item.ItemName = itemnameTextBox.Text;
-            item.Price = Convert.ToDouble(priceTextBox.Text);
-            
-            ////Set ID as Mandatory
+            item.Id = Convert.ToInt32(id);
 
-            //if (String.IsNullOrEmpty(idTextBox.Text))
-            //{
-            //    MessageBox.Show("ID Can not be Empty!!!");
-            //    return;
-           // }
 
 
             bool isDeleted = _itemManager.Delete(item);
@@ -96,18 +97,28 @@ namespace coffeeShopR
         {
             Item item = new Item();
 
+
             item.ItemName = itemnameTextBox.Text;
+            item.Id = Convert.ToInt32(id);
+
+            //Set Name as Mandatory
+            if (String.IsNullOrEmpty(itemnameTextBox.Text))
+            {
+                MessageBox.Show("Name Can not be Empty!!!");
+                return;
+            }
+
+            //Set Price as Mandatory
+            if (String.IsNullOrEmpty(priceTextBox.Text))
+            {
+                MessageBox.Show("Price Can not be Empty!!!");
+                return;
+            }
+
+
+
             item.Price = Convert.ToDouble(priceTextBox.Text);
 
-            
-
-            ////Set ID as Mandatory
-
-            //if (String.IsNullOrEmpty(idTextBox.Text))
-            //{
-            //    MessageBox.Show("ID Can not be Empty!!!");
-            //    return;
-            //}
 
             bool isUpdated = _itemManager.Update(item);
 
@@ -134,41 +145,42 @@ namespace coffeeShopR
         {
             Item item = new Item();
 
-            item.ItemName = itemnameTextBox.Text;
-            item.Price = Convert.ToDouble(priceTextBox.Text);
 
-            ////Set Name as Mandatory
 
-            ////if (String.IsNullOrEmpty(itemnameTextBox.Text))
-            ////{
-            ////    MessageBox.Show("Name Can not be Empty!!!");
-            ////    return;
-            ////}
 
+            //Set Name as Mandatory
+
+            if (String.IsNullOrEmpty(itemnameTextBox.Text))
+            {
+                MessageBox.Show("Name Can not be Empty!!!");
+                return;
+            }
             
+             item.ItemName = itemnameTextBox.Text;
+
+
             showdataGridView.DataSource = _itemManager.Search(item);
 
         }
 
-        //Method
-        //Add
+       
+       
+
+        
+
+        private void showdataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = this.showdataGridView.Rows[e.RowIndex];
+                id = row.Cells[0].Value.ToString();
+                itemnameTextBox.Text = row.Cells[1].Value.ToString();
+                priceTextBox.Text = row.Cells[2].Value.ToString();
+
+            }
+        }
 
      
-        //Delete
-
-       
-        //update
-
-        
-
-        //show
-
-       
-
-        //search
-       
-
-        
 
     }
 }
