@@ -17,6 +17,7 @@ namespace coffeeShopR
 {
     public partial class customerUi : Form
     {
+        public string id;
 
         CustomerManager _customerManager = new CustomerManager();
 
@@ -34,6 +35,26 @@ namespace coffeeShopR
 
             customer.CustomerName = customernameTextBox.Text;
 
+            //Set Name as Mandatory
+            if (String.IsNullOrEmpty(customernameTextBox.Text))
+            {
+                MessageBox.Show("Name Can not be Empty!!!");
+                return;
+            }
+            //Set Address as Mandatory
+            if (String.IsNullOrEmpty(addressTextBox.Text))
+            {
+                MessageBox.Show("Address Can not be Empty!!!");
+                return;
+            }
+            //Set Contact as Mandatory
+            if (String.IsNullOrEmpty(contactTextBox.Text))
+            {
+                MessageBox.Show("Contact Can not be Empty!!!");
+                return;
+            }
+
+
             //Check UNIQUE
             if (_customerManager.IsNameExist(customer))
             {
@@ -43,7 +64,7 @@ namespace coffeeShopR
 
             customer.Adrs = addressTextBox.Text;
             customer.Contact = contactTextBox.Text;
-            //customer.Id = Convert.ToInt16(idTextBox.Text);
+           
 
             bool isAdded = _customerManager.Add(customer);
 
@@ -71,15 +92,16 @@ namespace coffeeShopR
             customer.CustomerName = customernameTextBox.Text;
             customer.Adrs = addressTextBox.Text;
             customer.Contact = contactTextBox.Text;
+            customer.Id =  Convert.ToInt32(id);
 
 
-            //Set ID as Mandatory
+            ////Set ID as Mandatory
 
-            if (String.IsNullOrEmpty(customernameTextBox.Text))
-            {
-                MessageBox.Show("Name Can not be Empty!!!");
-                return;
-            }
+            //if (String.IsNullOrEmpty(idTextBox.Text))
+            //{
+            //    MessageBox.Show("ID Can not be Empty!!!");
+            //    return;
+            //}
 
 
             bool isDeleted = _customerManager.Delete(customer);
@@ -106,6 +128,7 @@ namespace coffeeShopR
             customer.CustomerName = customernameTextBox.Text;
             customer.Adrs = addressTextBox.Text;
             customer.Contact = contactTextBox.Text;
+            customer.Id = Convert.ToInt32(id);
 
             ////Set ID as Mandatory
 
@@ -144,31 +167,29 @@ namespace coffeeShopR
             Customer customer = new Customer();
 
             customer.CustomerName = customernameTextBox.Text;
-            customer.Adrs = addressTextBox.Text;
-            customer.Contact = contactTextBox.Text;
+
 
             //Set Name as Mandatory
 
-            //if (String.IsNullOrEmpty(customernameTextBox.Text))
-            //{
-            //    MessageBox.Show("Name Can not be Empty!!!");
-            //    return;
-            //}
+            if (String.IsNullOrEmpty(customernameTextBox.Text))
+            {
+                MessageBox.Show("Name Can not be Empty!!!");
+                return;
+            }
 
             showdataGridView.DataSource = _customerManager.Search(customer);
         }
 
-        private void customerUi_Load(object sender, EventArgs e)
+        private void showdataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (showdataGridView.SelectedRows.Count > 0) // make sure user select at least 1 row 
+            if (e.RowIndex >= 0)
             {
-                string customername = showdataGridView.SelectedRows[0].Cells[1].Value + string.Empty;
-                string contact = showdataGridView.SelectedRows[0].Cells[2].Value + string.Empty;
-                string address = showdataGridView.SelectedRows[0].Cells[3].Value + string.Empty;
+                DataGridViewRow row = this.showdataGridView.Rows[e.RowIndex];
+                id = row.Cells[0].Value.ToString();
+                customernameTextBox.Text = row.Cells[1].Value.ToString();
+                contactTextBox.Text = row.Cells[2].Value.ToString();
+                addressTextBox.Text = row.Cells[3].Value.ToString();
 
-                customernameTextBox.Text = customername;
-                contactTextBox.Text = contact;
-                addressTextBox.Text = address;
             }
         }
     }
