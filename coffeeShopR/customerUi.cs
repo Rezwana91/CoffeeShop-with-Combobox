@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -33,14 +33,6 @@ namespace coffeeShopR
             Customer customer = new Customer();
 
             customer.CustomerName = customernameTextBox.Text;
-
-            //Set Name as Mandatory
-            //if (String.IsNullOrEmpty(idTextBox.Text))
-            //{
-            //    MessageBox.Show("Id Can not be Empty!!!");
-            //    return;
-            //}
-        
 
             //Check UNIQUE
             if (_customerManager.IsNameExist(customer))
@@ -81,13 +73,13 @@ namespace coffeeShopR
             customer.Contact = contactTextBox.Text;
 
 
-            ////Set ID as Mandatory
+            //Set ID as Mandatory
 
-            //if (String.IsNullOrEmpty(idTextBox.Text))
-            //{
-            //    MessageBox.Show("ID Can not be Empty!!!");
-            //    return;
-            //}
+            if (String.IsNullOrEmpty(customernameTextBox.Text))
+            {
+                MessageBox.Show("Name Can not be Empty!!!");
+                return;
+            }
 
 
             bool isDeleted = _customerManager.Delete(customer);
@@ -155,16 +147,29 @@ namespace coffeeShopR
             customer.Adrs = addressTextBox.Text;
             customer.Contact = contactTextBox.Text;
 
-            ////Set Name as Mandatory
+            //Set Name as Mandatory
 
             //if (String.IsNullOrEmpty(customernameTextBox.Text))
             //{
             //    MessageBox.Show("Name Can not be Empty!!!");
             //    return;
-            //}          
-           
+            //}
+
             showdataGridView.DataSource = _customerManager.Search(customer);
         }
-        
+
+        private void customerUi_Load(object sender, EventArgs e)
+        {
+            if (showdataGridView.SelectedRows.Count > 0) // make sure user select at least 1 row 
+            {
+                string customername = showdataGridView.SelectedRows[0].Cells[1].Value + string.Empty;
+                string contact = showdataGridView.SelectedRows[0].Cells[2].Value + string.Empty;
+                string address = showdataGridView.SelectedRows[0].Cells[3].Value + string.Empty;
+
+                customernameTextBox.Text = customername;
+                contactTextBox.Text = contact;
+                addressTextBox.Text = address;
+            }
+        }
     }
 }
