@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -43,6 +43,11 @@ namespace coffeeShopR.Manager
         public DataTable Search(Customer customer)
         {
             return _customerRepository.Search(customer);
+        }
+
+        public DataTable Show(Customer customer)
+        {
+            return _customerRepository.Show(customer);
         }
     }
 }
