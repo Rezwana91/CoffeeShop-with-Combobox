@@ -44,10 +44,5 @@ namespace coffeeShopR.Manager
         {
             return _customerRepository.Search(customer);
         }
-
-        public DataTable Show(Customer customer)
-        {
-            return _customerRepository.Show(customer);
-        }
     }
 }
