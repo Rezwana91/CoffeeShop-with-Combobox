@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -207,7 +207,7 @@ namespace coffeeShopR.Repository
 
             //Command
 
-            string commandString = @"select*from customers where CustomerName ='" + customer.CustomerName + "'";
+            string commandString = @"select * from customers where CustomerName ='" + customer.CustomerName + "'";
             SqlCommand sqlCommand = new SqlCommand(commandString, sqlConnection);
 
             //Open
@@ -239,6 +239,47 @@ namespace coffeeShopR.Repository
             return dataTable;
 
 
+        }
+
+        public DataTable Show(Customer customer)
+        {
+            //Connection
+
+            string connectionString = @"Server=DESKTOP-55FHBO2;Database=CoffeeShopR;Integrated Security=True";
+            SqlConnection sqlConnection = new SqlConnection(connectionString);
+
+            //Command
+
+            string commandString = @"select*from customers";
+            SqlCommand sqlCommand = new SqlCommand(commandString, sqlConnection);
+
+            //Open
+
+            sqlConnection.Open();
+
+            //Execute
+
+            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
+            DataTable dataTable = new DataTable();
+            sqlDataAdapter.Fill(dataTable);
+            //showdataGridView.DataSource = dataTable;
+
+
+            //if (dataTable.Rows.Count > 0)
+            //{
+            //    //  showdataGridView.DataSource = dataTable;
+            //}
+            //else
+            //{
+            //    // MessageBox.Show("Data Tabel not found");
+
+            //}
+
+            //Close
+
+            sqlConnection.Close();
+
+            return dataTable;
         }
     }
 }
